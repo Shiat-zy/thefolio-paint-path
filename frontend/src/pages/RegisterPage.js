@@ -3,6 +3,24 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import API from '../api/axios';
 
+// Simple guest navbar – kung may existing Navbar component, i-import na lang at palitan ito
+const GuestNavbar = () => {
+  return (
+    <nav className="guest-navbar">
+      <div className="nav-container">
+        <div className="logo">
+          <Link to="/">🎨 Paint Path</Link>
+        </div>
+        <ul className="nav-links">
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/login">Login</Link></li>
+          <li><Link to="/register" className="active">Register</Link></li>
+        </ul>
+      </div>
+    </nav>
+  );
+};
+
 const RegisterPage = () => {
   const navigate = useNavigate();
 
@@ -176,7 +194,6 @@ const RegisterPage = () => {
     }
   };
 
-  // ITO ANG BINAGO: ang Cancel ay dadalhin sa login page
   const handleCancel = () => {
     setFullName('');
     setEmail('');
@@ -222,72 +239,130 @@ const RegisterPage = () => {
   }, [dob, errors.dob]);
 
   return (
-    <section className="home-wrapper" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div className="register-page" style={{ maxWidth: '500px', width: '100%', margin: '0 auto', padding: '40px 20px' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>Join the Paint Path Community</h2>
+    <>
+      <GuestNavbar />
+      <section className="home-wrapper" style={{ minHeight: 'calc(100vh - 70px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="register-page" style={{ maxWidth: '500px', width: '100%', margin: '0 auto', padding: '40px 20px' }}>
+          <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>Join the Paint Path Community</h2>
 
-        {apiError && <div className="api-error-message">{apiError}</div>}
-        {successMessage && <div className="success-message">{successMessage}</div>}
+          {apiError && <div className="api-error-message">{apiError}</div>}
+          {successMessage && <div className="success-message">{successMessage}</div>}
 
-        <form onSubmit={handleSubmit} noValidate className="glass-form">
-          {/* Full Name */}
-          <div className="input-wrapper">
-            <input type="text" ref={fullNameRef} value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Full Name" />
-            {errors.fullName && <span className="error-tooltip">{errors.fullName}</span>}
-          </div>
+          <form onSubmit={handleSubmit} noValidate className="glass-form">
+            {/* Full Name */}
+            <div className="input-wrapper">
+              <input type="text" ref={fullNameRef} value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Full Name" />
+              {errors.fullName && <span className="error-tooltip">{errors.fullName}</span>}
+            </div>
 
-          {/* Email */}
-          <div className="input-wrapper">
-            <input type="email" ref={emailRef} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-            {errors.email && <span className="error-tooltip">{errors.email}</span>}
-          </div>
+            {/* Email */}
+            <div className="input-wrapper">
+              <input type="email" ref={emailRef} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+              {errors.email && <span className="error-tooltip">{errors.email}</span>}
+            </div>
 
-          {/* Password with eye */}
-          <div className="input-wrapper password-field">
-            <input type={showPassword ? 'text' : 'password'} ref={passwordRef} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password (8-20 characters)" />
-            <button type="button" className="eye-icon" onClick={handlePasswordToggle} tabIndex="-1">
-              {showPassword ? '🙈' : '👁️'}
-            </button>
-            {errors.password && <span className="error-tooltip">{errors.password}</span>}
-          </div>
+            {/* Password with eye */}
+            <div className="input-wrapper password-field">
+              <input type={showPassword ? 'text' : 'password'} ref={passwordRef} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password (8-20 characters)" />
+              <button type="button" className="eye-icon" onClick={handlePasswordToggle} tabIndex="-1">
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+              {errors.password && <span className="error-tooltip">{errors.password}</span>}
+            </div>
 
-          {/* Confirm Password with eye */}
-          <div className="input-wrapper password-field">
-            <input type={showConfirm ? 'text' : 'password'} ref={confirmRef} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password" />
-            <button type="button" className="eye-icon" onClick={handleConfirmToggle} tabIndex="-1">
-              {showConfirm ? '🙈' : '👁️'}
-            </button>
-            {errors.confirm && <span className="error-tooltip">{errors.confirm}</span>}
-          </div>
+            {/* Confirm Password with eye */}
+            <div className="input-wrapper password-field">
+              <input type={showConfirm ? 'text' : 'password'} ref={confirmRef} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password" />
+              <button type="button" className="eye-icon" onClick={handleConfirmToggle} tabIndex="-1">
+                {showConfirm ? '🙈' : '👁️'}
+              </button>
+              {errors.confirm && <span className="error-tooltip">{errors.confirm}</span>}
+            </div>
 
-          {/* Date of Birth */}
-          <div className="input-wrapper">
-            <input type="date" ref={dobRef} value={dob} onChange={(e) => setDob(e.target.value)} placeholder="Date of Birth" />
-            {errors.dob && <span className="error-tooltip">{errors.dob}</span>}
-          </div>
+            {/* Date of Birth */}
+            <div className="input-wrapper">
+              <input type="date" ref={dobRef} value={dob} onChange={(e) => setDob(e.target.value)} placeholder="Date of Birth" />
+              {errors.dob && <span className="error-tooltip">{errors.dob}</span>}
+            </div>
 
-          {/* Terms */}
-          <div className="terms-wrapper">
-            <label>
-              <input type="checkbox" ref={termsRef} checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} />
-              I agree to the terms and conditions
-            </label>
-            {errors.terms && <span className="error-tooltip">{errors.terms}</span>}
-          </div>
+            {/* Terms */}
+            <div className="terms-wrapper">
+              <label>
+                <input type="checkbox" ref={termsRef} checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} />
+                I agree to the terms and conditions
+              </label>
+              {errors.terms && <span className="error-tooltip">{errors.terms}</span>}
+            </div>
 
-          {/* Buttons */}
-          <div className="button-group">
-            <button type="submit">Register</button>
-            <button type="button" onClick={handleCancel}>Cancel</button>
-          </div>
+            {/* Buttons */}
+            <div className="button-group">
+              <button type="submit">Register</button>
+              <button type="button" onClick={handleCancel}>Cancel</button>
+            </div>
 
-          <p style={{ textAlign: 'center', marginTop: '20px' }}>
-            Already have an account? <Link to="/login">Log in</Link>
-          </p>
-        </form>
-      </div>
+            <p style={{ textAlign: 'center', marginTop: '20px' }}>
+              Already have an account? <Link to="/login">Log in</Link>
+            </p>
+          </form>
+        </div>
+      </section>
 
       <style>{`
+        /* Guest Navbar Styles */
+        .guest-navbar {
+          background: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(10px);
+          padding: 1rem 2rem;
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+          border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .guest-navbar .nav-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+        .guest-navbar .logo a {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: white;
+          text-decoration: none;
+          letter-spacing: 1px;
+        }
+        .guest-navbar .nav-links {
+          display: flex;
+          gap: 2rem;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+        .guest-navbar .nav-links li a {
+          color: rgba(255,255,255,0.9);
+          text-decoration: none;
+          font-weight: 500;
+          transition: 0.3s;
+          padding: 0.5rem 0;
+        }
+        .guest-navbar .nav-links li a:hover,
+        .guest-navbar .nav-links li a.active {
+          color: #ff6b6b;
+          border-bottom: 2px solid #ff6b6b;
+        }
+        @media (max-width: 600px) {
+          .guest-navbar .nav-container {
+            flex-direction: column;
+            gap: 0.5rem;
+          }
+          .guest-navbar .nav-links {
+            gap: 1rem;
+          }
+        }
+
+        /* Original Register Page Styles (slightly adjusted) */
         .register-page .glass-form {
           background: rgba(255, 255, 255, 0.15);
           backdrop-filter: blur(12px);
@@ -449,7 +524,7 @@ const RegisterPage = () => {
           }
         }
       `}</style>
-    </section>
+    </>
   );
 };
 
