@@ -29,6 +29,11 @@ app.use(express.json());
 // Serve uploaded image files as public URLs
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// Test route
+app.get('/test', (req, res) => {
+  res.json({ message: 'Backend is alive' });
+});
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
