@@ -18,7 +18,7 @@ connectDB(); // Connect to MongoDB
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://paint-path.vercel.app'   // replace with your actual Vercel URL if different
+    'https://shiatzy-paint-path.vercel.app' 
   ],
   credentials: true,
 }));
