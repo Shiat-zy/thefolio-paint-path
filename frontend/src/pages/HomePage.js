@@ -207,7 +207,7 @@ const HomePage = () => {
                 <div key={p._id} className="post-card">
                   {p.image && (
                     <img
-                      src={`http://localhost:5000/uploads/${p.image}`}
+                      src={`https://thefolio-paint-path.onrender.com/uploads/${p.image}`}
                       alt={p.title}
                       className="post-image"
                     />

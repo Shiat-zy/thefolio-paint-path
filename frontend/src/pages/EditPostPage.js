@@ -186,7 +186,7 @@ const EditPostPage = () => {
                 {/* Show current image if it exists and a new one hasn't been selected yet */}
                 {currentImage && !newImage && (
                   <div className="current-image-preview">
-                    <img src={`http://localhost:5000/uploads/${currentImage}`} alt="Current cover" />
+                    <img src={`https://thefolio-paint-path.onrender.com/uploads/${currentImage}`} alt="Current cover" />
                     <div className="image-info">
                       <span className="image-title">Current Cover Image</span>
                       <span className="image-subtitle">Upload a new file to replace this</span>

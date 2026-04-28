@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+  // Pointing to the live Render backend
+  baseURL: process.env.REACT_APP_API_URL || 'https://thefolio-paint-path.onrender.com/api',
 });
 
 instance.interceptors.request.use((config) => {

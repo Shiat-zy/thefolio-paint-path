@@ -228,7 +228,7 @@ const PostPage = () => {
           <div className="post-card" style={{ marginBottom: '30px' }}>
             {post.image && (
               <img
-                src={`http://localhost:5000/uploads/${post.image}`}
+                src={`https://thefolio-paint-path.onrender.com/uploads/${post.image}`}
                 alt={post.title}
                 style={{ 
                   width: '100%', 

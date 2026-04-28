@@ -79,9 +79,7 @@ const ProfilePage = () => {
     }
   };
 
-  const picSrc = user?.profilePic
-    ? `http://localhost:5000/uploads/${user.profilePic}`
-    : '/default-avatar.png';
+  const picSrc = user?.profilePic ? `https://thefolio-paint-path.onrender.com/uploads/${user.profilePic}` : '/default-avatar.png';
 
   return (
     <>
