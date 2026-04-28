@@ -33,7 +33,6 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/test', (req, res) => {
   res.json({ message: 'Backend is alive' });
 });
-
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
