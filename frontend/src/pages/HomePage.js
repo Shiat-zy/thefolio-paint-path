@@ -53,7 +53,7 @@ const HomePage = () => {
     });
   };
 
-  // ✅ Emoji picker uses existing PUT /posts/:id/like endpoint
+  // Emoji picker uses existing PUT /posts/:id/like endpoint
   // All emojis (heart, like, laugh) will increment the same like count
   const handleReaction = async (postId) => {
     if (!user) {
@@ -95,12 +95,18 @@ const HomePage = () => {
           <nav>
             <Link to="/home" className="active">Home</Link>
             <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
+            
+            {/* ✅ HIDE CONTACT IF ADMIN IS LOGGED IN */}
+            {!isAdmin() && <Link to="/contact">Contact</Link>}
+            
             <Link to="/games">Games</Link>
 
             {/* CONDITIONAL NAVBAR */}
             {!user ? (
-              <Link to="/register">Register</Link>
+              <>
+                <Link to="/login">Login</Link>
+                <Link to="/register">Register</Link>
+              </>
             ) : (
               <>
                 <Link to="/create-post">Create</Link>

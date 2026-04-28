@@ -1,9 +1,11 @@
 import { Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { ThemeContext } from '../cont/ThemeContext';
+import { useAuth } from '../context/AuthContext'; // ✅ Imported useAuth
 
 const Header = () => {
   const { darkMode, toggleTheme } = useContext(ThemeContext);
+  const { isAdmin } = useAuth(); // ✅ Extract isAdmin
 
   return (
     <header>
@@ -15,7 +17,12 @@ const Header = () => {
         <nav>
           <NavLink to="/home" className={({ isActive }) => isActive ? 'active' : ''}>Home</NavLink>
           <NavLink to="/about" className={({ isActive }) => isActive ? 'active' : ''}>About</NavLink>
-          <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
+          
+          {/* ✅ HIDE CONTACT IF ADMIN IS LOGGED IN */}
+          {!isAdmin() && (
+            <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>Contact</NavLink>
+          )}
+          
           <NavLink to="/register" className={({ isActive }) => isActive ? 'active' : ''}>Register</NavLink>
           <NavLink to="/games" className={({ isActive }) => isActive ? 'active' : ''}>Games</NavLink>
         </nav>

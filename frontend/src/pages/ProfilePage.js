@@ -94,7 +94,10 @@ const ProfilePage = () => {
           <nav>
             <Link to="/home">Home</Link>
             <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
+            
+            {/* ✅ HIDE CONTACT IF ADMIN IS LOGGED IN */}
+            {!isAdmin() && <Link to="/contact">Contact</Link>}
+            
             <Link to="/games">Games</Link>
             <Link to="/create-post">Create</Link>
             

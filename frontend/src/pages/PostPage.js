@@ -69,7 +69,7 @@ const PostPage = () => {
     }
   };
 
-  // Handle reaction (like with emoji) - FIXED
+  // Handle reaction (like with emoji)
   const handleReaction = async (reactionType) => {
     if (!user) return;
     
@@ -104,6 +104,19 @@ const PostPage = () => {
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  // Handle Delete Post
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this post? This cannot be undone.')) {
+      try {
+        await API.delete(`/posts/${id}`);
+        navigate('/home'); // Send them back to the feed after deleting
+      } catch (err) {
+        console.error(err);
+        alert('Failed to delete post. Please try again.');
+      }
+    }
   };
 
   if (loading) {
@@ -215,7 +228,7 @@ const PostPage = () => {
           <div className="post-card" style={{ marginBottom: '30px' }}>
             {post.image && (
               <img
-                src={`http://localhost:5000/${post.image}`}
+                src={`http://localhost:5000/uploads/${post.image}`}
                 alt={post.title}
                 style={{ 
                   width: '100%', 
@@ -236,8 +249,49 @@ const PostPage = () => {
             <div style={{ margin: '20px 0', whiteSpace: 'pre-wrap', lineHeight: '1.6', color: '#fff' }}>
               {post.body}
             </div>
+
+            {/* Show Edit/Delete only if the logged-in user is the author or an admin */}
+            {user && post.author && (user._id === post.author._id || user.id === post.author._id || isAdmin()) && (
+              <div style={{ display: 'flex', gap: '15px', marginTop: '10px' }}>
+                <button
+                  onClick={() => navigate(`/edit-post/${id}`)}
+                  style={{
+                    padding: '8px 20px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    color: 'white',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    backdropFilter: 'blur(4px)',
+                    transition: '0.3s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.3)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'}
+                >
+                  ✏️ Edit
+                </button>
+                
+                <button
+                  onClick={handleDelete}
+                  style={{
+                    padding: '8px 20px',
+                    backgroundColor: 'rgba(255, 71, 87, 0.8)',
+                    color: 'white',
+                    border: '1px solid rgba(255, 71, 87, 0.5)',
+                    borderRadius: '20px',
+                    cursor: 'pointer',
+                    backdropFilter: 'blur(4px)',
+                    transition: '0.3s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 71, 87, 1)'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 71, 87, 0.8)'}
+                >
+                  🗑️ Delete
+                </button>
+              </div>
+            )}
             
-            {/* Reactions Section with Hover Emojis - TANGGAL NA ANG SALITANG "Reactions" */}
+            {/* Reactions Section */}
             <div style={{ marginTop: '20px' }}>
               <div style={{ position: 'relative', display: 'inline-block' }}>
                 <div
@@ -257,7 +311,6 @@ const PostPage = () => {
                   <span style={{ fontSize: '18px' }}>
                     {selectedReaction ? getReactionEmoji(selectedReaction) : '❤️'}
                   </span>
-                  {/* ✅ TINANGGAL ANG "Reactions" - BILANG NA LANG ANG NAKALAGAY */}
                   <span style={{ fontSize: '14px' }}>
                     {getTotalReactions()}
                   </span>
@@ -327,7 +380,7 @@ const PostPage = () => {
                 )}
               </div>
 
-              {/* Show reaction breakdown (optional, pero walang salitang "Reactions") */}
+              {/* Show reaction breakdown */}
               {post.reactions && getTotalReactions() > 0 && (
                 <div style={{ 
                   marginTop: '10px', 

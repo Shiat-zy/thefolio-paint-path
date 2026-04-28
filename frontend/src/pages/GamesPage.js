@@ -1,4 +1,4 @@
-// frontend/src/pages/GamesPage.jsx
+// frontend/src/pages/GamesPage.js
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -177,15 +177,19 @@ const GamesPage = () => {
           <nav>
             <Link to="/home">Home</Link>
             <Link to="/about">About</Link>
-            <Link to="/contact">Contact</Link>
+            
+            {/* ONLY SHOW CONTACT IN NAV IF NOT ADMIN */}
+            {!isAdmin() && <Link to="/contact">Contact</Link>}
+            
             <Link to="/games" className="active">Games</Link>
 
-            {/* ✅ CONDITIONAL NAVBAR */}
+            {/* CONDITIONAL NAVBAR */}
             {!user ? (
-              // GUEST: Register link lang
-              <Link to="/register">Register</Link>
+              <>
+                <Link to="/login">Login</Link>
+                <Link to="/register">Register</Link>
+              </>
             ) : (
-              // LOGGED IN (ordinary user + admin)
               <>
                 <Link to="/create-post">Create</Link>
                 {isAdmin() && <Link to="/admin">Admin</Link>}
